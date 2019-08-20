@@ -1,40 +1,55 @@
 /* eslint-disable strict, no-useless-escape, no-cond-assign */
-'use strict'
-const MagicString = require('magic-string')
-function escape(str) {
-    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&')
-}
-module.exports = function rewriteImports(appendPath) {
-    const patternImport = new RegExp(/import(?:["'\s]*([\w*${}\n\r\t, ]+)from\s*)?["'\s]["'\s](.*[@\w_-]+)["'\s].*;?$/, 'mg')
-    const patternDImport = new RegExp(/import\((?:["'\s]*([\w*{}\n\r\t, ]+)\s*)?["'\s](.*([@\w_-]+))["'\s].*\);?$/, 'mg')
+'use strict';
+
+const fs = require('fs');
+const platform = require('os').platform;
+const path = require('path');
+const slash = require('slash');
+
+const VOLUME = /^([A-Z]:)/;
+const IS_WINDOWS = platform() === 'win32';
+const normalizePath = function(id) {
+    if ((IS_WINDOWS && typeof id === 'string') || VOLUME.test(id)) {
+        return slash(id.replace(VOLUME, ''));
+    }
+    return id;
+};
+const matches = function(key, find, isRegEx) {
+    if(!key || !find )
+        return false;
+    if(!isRegEx && key === find)
+        return true;
+    if(isRegEx)
+        return find.test(key);
+    return false;
+};
+
+module.exports = function rewriteImports(optionsOrPath) {
+    const isString = typeof optionsOrPath === "string";
     return {
         name: 'rewriteImports',
-        renderChunk(code) {
-            const magicString = new MagicString(code)
-            let hasReplacements = false
-            let match
-            let start
-            let end
-            let replacement
-            // work against normal imports
-            while (match = patternImport.exec(code)) {
-                hasReplacements = true
-                start = match.index
-                end = start + match[0].length
-                replacement = String(match[0].replace(match[2], appendPath + match[2]))
-                magicString.overwrite(start, end, replacement)
+        resolveId(importee, importer) {
+            const importeeId = normalizePath(importee);
+            const importerId = normalizePath(importer);
+            if(isString) {
+                return normalizePath(optionsOrPath)+importeeId;
+            } else if(optionsOrPath.entries) {
+                const entry = optionsOrPath.entries
+                    .find(function(entry) { return matches(importeeId, entry.find, entry.isRegEx);});
+                if(entry) {
+                    const replacementId =  importeeId.replace(entry.find, entry.replacement);
+                    if(entry.isRelative) {
+                        return { 
+                            id:normalizePath(path.resolve(importerId, replacementId)),
+                            external:true //we're pretending that we're external here
+                        }
+                    }
+                    return {
+                        id:normalizePath(replacementId),
+                        external:true //we're pretending that we're external here
+                    }
+                }
             }
-            // work against dynamic imports
-            while (match = patternDImport.exec(code)) {
-                hasReplacements = true
-                start = match.index
-                end = start + match[0].length
-                replacement = String(match[0].replace(match[2], appendPath + match[2]))
-                magicString.overwrite(start, end, replacement)
-            }
-            if (!hasReplacements) return null
-            const result = { code: magicString.toString() }
-            return result
-        }
+		}
     }
 }
