@@ -7,7 +7,9 @@ The code has been rewritten to use the resolveId hook which will actually get al
 
 **Since the imports are flagged "external" they won't be processed by rollup itself any further!** 
 
-**If you seek for that functionality have a look at [rollup-plugin-alias](https://github.com/rollup/rollup-plugin-alias)** which does the same (and uses almost the same syntax) just for imports that are ment to handled by rollup (aka all regular imports).
+**If you seek for that functionality have a look at [rollup-plugin-alias](https://github.com/rollup/rollup-plugin-alias)** 
+
+...which does the same (and uses almost the same syntax) just for imports that are ment to handled by rollup (aka all regular imports).
 
 Before you hurry of there - my [PR](https://github.com/rollup/rollup-plugin-alias/pull/53) was already reviewed and approved there, but it's still pending the Merge and the version isn't published on NPM yet. 
 
