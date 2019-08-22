@@ -9,11 +9,9 @@ The code has been rewritten to use the resolveId hook which will actually get al
 
 **If you seek for that functionality have a look at [rollup-plugin-alias](https://github.com/rollup/rollup-plugin-alias)** 
 
-...which does the same (and uses almost the same syntax) just for imports that are ment to handled by rollup (aka all regular imports).
+...which does the same (and uses almost the same syntax\*) just for imports that are ment to handled by rollup (aka all regular imports).
 
-Before you hurry of there - my [PR](https://github.com/rollup/rollup-plugin-alias/pull/53) was already reviewed and approved there, but it's still pending the Merge and the version isn't published on NPM yet. 
-
-If you want to use it right now then you'll have to grab [my fork](https://github.com/thiscantbeserious/rollup-plugin-alias) in the meantime.
+\**Before you hurry off to use it - my [PR was already reviewed and approved there](https://github.com/rollup/rollup-plugin-alias/pull/53), but it's still pending the Merge and the version isn't published on NPM yet. If you want to use it right now then you'll have to grab [my fork in the meantime](https://github.com/thiscantbeserious/rollup-plugin-alias).*
 
 The previous hook of renderChunk only grabbed imports that were sitting in chunks (meaning no entry-points in itself). This also supports a distinct configuration as follows:
 
