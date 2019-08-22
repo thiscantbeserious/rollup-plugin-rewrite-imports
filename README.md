@@ -31,9 +31,9 @@ Tought you can still use the old way and simply us a string so that your path wi
 rewriteImports("../")
 ```
 
-It's currently not covered by any tests - this still needs to be done.
+**It's currently not covered by any tests (well the old tests are failing since they're outdated) - this still needs to be done.**
 
-Pass a string in to rewrite the path of ES module imports and dynamic imports
+--------
 
 ## Why
 
