@@ -7,6 +7,10 @@ The code has been rewritten to use the resolveId hook which will actually get al
 
 **Since the imports are flagged "external" they won't be processed by rollup itself any further!** 
 
+Tought - If you specify `isRelative: true` then the plugin will try to compare the resulting path (consisting with the initial path and the one you supplied) with the importer and update it to be "more" simple and felxible. Use that option with care!
+
+As you can see Regular Expressions are also supported now ... more on that later (see for an usage-example below).
+
 **If you seek for that functionality have a look at [rollup-plugin-alias](https://github.com/rollup/rollup-plugin-alias)** 
 
 ...which does the same (and uses almost the same syntax\*) just for imports that are ment to handled by rollup (aka all regular imports).
