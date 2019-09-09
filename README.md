@@ -26,7 +26,7 @@ rewriteImports({
 
 ```
 
-If you specify `isRelative: true` then the plugin will try to compare the resulting path (consisting with the initial path and the one you supplied) with the importer and update it to be "more" simple and felxible. Use that option with care!
+If you specify `isRelative: true` then the plugin will try to compare the resulting path (consisting with the initial path and the one you supplied) with the importer and update it to be "more" simple and flexible. Use that option with care!
 
 As you can see Regular Expressions are also supported now ... more on that later (see for an usage-example below).
 
