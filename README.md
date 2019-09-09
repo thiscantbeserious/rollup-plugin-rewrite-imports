@@ -38,6 +38,8 @@ rewriteImports("../")
 
 **It's currently not covered by any tests (well the old tests are failing since they're outdated) - this still needs to be done.**
 
+Old Readme (beware, not modified yet - so outdated!):
+
 --------
 
 ## Why
